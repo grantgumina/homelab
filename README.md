@@ -16,7 +16,7 @@ Internet
    |  
    |-- 4U Gaming PC (Racked)  
    |  
-   |-- 3U Proxmox Server (Hyperconverged)  
+   |-- 3U Proxmox Hypervisor
        |  
        |-- VM #1 (Containers)  
        |    |-- Plex  
@@ -50,7 +50,7 @@ Internet
 - [SXTAIGOOD SAS3008 AOC-S3008L-L8E 9300-8I IT-Mode HBA JBOD PCI-E 3.0 SATA/SAS 8-Port SAS3 12Gb/s ZFS FreeNAS unRAID + 2x SFF-8643 SATA Cables](https://www.amazon.com/dp/B0C3D2ZV8L)  
 
 
-### Gaming PC
+### Gaming PC (I only play old games)
 - [Intel Core i3-6100 3.7 GHz Dual-Core Processor](https://pcpartpicker.com/product/hV7CmG/intel-cpu-bx80662i36100)
 - [MSI H110M Pro-VD Micro ATX LGA1151 Motherboard](https://pcpartpicker.com/product/bPVBD3/msi-motherboard-h110mprovd)
 - [Crucial Ballistix Sport LT 8 GB (2 x 4 GB) DDR4-2400 CL16 Memory](https://pcpartpicker.com/product/9yKhP6/crucial-memory-bls2k4g4d240fsc)
