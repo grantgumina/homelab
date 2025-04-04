@@ -1,3 +1,4 @@
+## Overview
 This repository documents the architecture, configuration, and evolution of my personal homelab—a hands-on playground for experimenting with modern cloud-native infrastructure in a home setting. What started as a simple media server has grown into a self-hosted ecosystem spanning virtualization, containerization, automation, storage management, and smart home integration.
 
 The homelab consists of two physical machines: a rack-mounted gaming PC and a 3U hyperconverged server running Proxmox. It hosts VMs and containers that power everything from media streaming (Plex, Sonarr, Radarr) to network services (AdGuard Home, Gluetun VPN) and home automation (Home Assistant). Storage is managed through TrueNAS, backed by 40TB of disk space shared across the environment.
