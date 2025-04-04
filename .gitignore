@@ -1,0 +1,71 @@
+# Ignore my real dockerfile
+docker-compose.yaml
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails and metadata files
+._*
+
+# macOS Trash files
+.Trashes
+
+# VSCode settings and workspace files
+.vscode/
+*.code-workspace
+
+# General editor swap/backup files
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# JetBrains IDEs (e.g., IntelliJ, PyCharm, WebStorm)
+.idea/
+*.iml
+
+# Sublime Text project files
+*.sublime-project
+*.sublime-workspace
+
+# Vim temporary files
+.viminfo
+
+# Emacs temporary files
+*~
+.#*
+
+# Node.js dependencies (if applicable)
+node_modules/
+
+# Python virtual environments (if applicable)
+venv/
+__pycache__/
+
+# Java compiled files (if applicable)
+*.class
+
+# Build artifacts (if applicable)
+dist/
+build/
+target/
+
+# Temporary system files
+Thumbs.db
+ehthumbs.db
+
+# Logs and debug output
+logs/
+*.log
+
+# Environment variables and secrets (example)
+.env
+.env.local
+
+# Ignore any custom temp files or folders in the project root
+tmp/
+temp/

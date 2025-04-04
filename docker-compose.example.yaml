@@ -1,0 +1,126 @@
+services:
+
+  # Gluetun is used to route certain containerized application traffic through a VPN.
+  # I'm using AirVPN as my VPN provider, but other options are available as well.
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp   # HTTP proxy
+      - 8388:8388/tcp   # Shadowsocks
+      - 8388:8388/udp   # Shadowsocks
+      - 7878:7878       # Radarr
+      - 8989:8989       # Sonarr
+      - 8112:8112       # Deluge
+      - 6881:6881       # Deluge
+      - 6881:6881/udp   # Deluge
+      - 58846:58846     # Deluge
+    volumes:
+      - /opt/gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=airvpn
+      - VPN_TYPE=wireguard
+      - FIREWALL_VPN_INPUT_PORTS=56014
+      - WIREGUARD_PRIVATE_KEY= # Add private key here
+      - WIREGUARD_PRESHARED_KEY= # Add preshared key here
+      - WIREGUARD_ADDRESSES= # Remember to add this address to the Deluge client under Preferences > Network > Incoming Address
+      - SERVER_COUNTRIES="United States"
+      - TZ=America/Los_Angeles
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    stdin_open: true
+    tty: true
+    environment:
+      - TZ=America/Los_Angeles
+    ports:
+      - "9443:9443/tcp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer:/data
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    volumes:
+      - /opt/radarr/data:/config
+      - nfs_share:/mnt/media
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    volumes:
+      - /opt/sondarr/data:/config
+      - nfs_share:/mnt/media/
+    restart: unless-stopped
+
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=3000
+      - TZ=America/Los_Angeles
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /opt/deluge/config:/config
+      - nfs_share:/mnt/media/
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    restart: unless-stopped
+
+  adguardhome:
+    container_name: adguardhome
+    image: adguard/adguardhome
+    ports:
+      - 53:53/tcp # plain dns over tcp
+      - 53:53/udp # plain dns over udp
+      - 80:80/tcp # http web interface
+      - 3000:3000/tcp # initial setup web interface
+    volumes:
+      - /opt/adguardhome/config:/config # app configuration
+      - /opt/adguardhome/work:/work # app working directory
+
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - VERSION=docker
+      - PLEX_CLAIM= # Add claim here. Don't put in quotes, have had issues.
+    volumes:
+      - nfs_share:/mnt/media/
+    restart: unless-stopped
+
+volumes:
+  nfs_share:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.68.67,rw,nfsvers=4"
+      device: ":/mnt/lsi-drives/media"
