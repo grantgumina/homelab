@@ -45,6 +45,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/portainer:/data
 
+  lidarr:
+    container_name: lidarr
+    image: ghcr.io/hotio/lidarr
+    environment:
+      - PUID=1000
+      - PGID=3000
+      - UMASK=002
+      - TZ=America/Los_Angeles
+    ports:
+      - 8686:8686
+    volumes:
+      - /opt/lidarr:/config
+      - nfs_share:/mnt/media/
+      
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
