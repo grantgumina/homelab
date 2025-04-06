@@ -64,3 +64,14 @@ Internet
 - [MSI GT OC GeForce GTX 1060 3GB 3 GB Video Card](https://pcpartpicker.com/product/4Np323/msi-geforce-gtx-1060-3gb-3gb-oc-video-card-geforce-gtx-1060-3gt-oc)
 - [Fractal Design Core 1000 USB 3.0 MicroATX Mid Tower Case](https://pcpartpicker.com/product/KPw323/fractal-design-case-fdcacore1000usb3bl)
 - [EVGA 500 W1 500 W 80+ Certified ATX Power Supply](https://pcpartpicker.com/product/XCjG3C/evga-500-w1-500-w-80-certified-atx-power-supply-100-w1-0500-kr)
+
+## Quirks
+
+### Networking
+Capturing some notes for future self and others who may have similar issues. Because I'm using consumer grade mesh network hardware (TP-LINK W6000 "Deco" devices), networking issues have plauged this setup. Steps to mitigate issues:
+
+- Assign static IPs based on Mac addresses for each of my VMs
+- Block, delete, and then unblock (via the Deco mobile app) a machine if/when Deco doesn't renew correctly assign IPs or renew leases
+
+### PCIe Cards
+The MSI motherboard selected has issues when plugging the HBA controller into PCIe slot #3 and takes down the network adapter because of how the motherboard shares PCIe lanes. Chose slot #1 instead.
