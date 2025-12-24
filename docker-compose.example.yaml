@@ -89,6 +89,22 @@ services:
       - nfs_share:/mnt/media/
     restart: unless-stopped
 
+  calibre-web-automated-book-downloader:
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
+    container_name: calibre-web-automated-book-downloader
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    depends_on:
+      - gluetun
+    ports:
+      - 8084:8084
+    restart: unless-stopped
+    volumes:
+      - /nfs_share:/mnt/media/books # This is where the books will be downloaded and ingested by your book management application
+      - /opt/calibre-web-automated-book-downloader/data:/config # Configuration files and database
+
   deluge:
     image: lscr.io/linuxserver/deluge:latest
     container_name: deluge
