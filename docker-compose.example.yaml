@@ -19,6 +19,7 @@ services:
       - 6881:6881       # Deluge
       - 6881:6881/udp   # Deluge
       - 58846:58846     # Deluge
+      - 8084:8084       # calibre-web-automated-downloader
     volumes:
       - /opt/gluetun:/gluetun
     environment:
@@ -96,13 +97,13 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Los_Angeles
+      - INGEST_DIR=/mnt/media/Books
+    network_mode: service:gluetun
     depends_on:
       - gluetun
-    ports:
-      - 8084:8084
     restart: unless-stopped
     volumes:
-      - /nfs_share:/mnt/media/books # This is where the books will be downloaded and ingested by your book management application
+      - nfs_share:/mnt/media # This is where the books will be downloaded and ingested by your book management application
       - /opt/calibre-web-automated-book-downloader/data:/config # Configuration files and database
 
   deluge:
